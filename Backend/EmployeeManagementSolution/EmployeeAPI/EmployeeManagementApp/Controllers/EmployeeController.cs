@@ -11,10 +11,12 @@ namespace EmployeeManagementApp.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IManageEmployee<Employee, EmployeeDTO> _service;
+        private readonly IUpdateEmployee _updateService;
 
-        public EmployeeController(IManageEmployee<Employee, EmployeeDTO> service)
+        public EmployeeController(IManageEmployee<Employee, EmployeeDTO> service , IUpdateEmployee updateService)
         {
             _service = service;
+            _updateService= updateService;
         }
 
         [HttpPost]
@@ -29,5 +31,60 @@ namespace EmployeeManagementApp.Controllers
             }
             return BadRequest("Operation failed");
         }
+
+        [HttpPut("Update Phone Number")]
+        [ProducesResponseType(typeof(ActionResult<Employee>),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Employee>> UpdatePhoneNo (UpdateDTO item)
+        {
+            Employee emp= await _updateService.UpdatePhoneNo(item);
+            if(emp != null)
+            {
+                return Ok(emp);
+            }
+            return BadRequest("Unable to Update Phone number ");
+        }
+
+        [HttpPut("Update Address")]
+        [ProducesResponseType(typeof(ActionResult<Employee>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Employee>> UpdateAddress(UpdateDTO item)
+        {
+            Employee emp = await _updateService.UpdateAddress(item);
+            if (emp != null)
+            {
+                return Ok(emp);
+            }
+            return BadRequest("Unable to Update Address");
+        }
+
+        [HttpPut("Update Passport number")]
+        [ProducesResponseType(typeof(ActionResult<Employee>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Employee>> UpdatePassportNo(UpdateDTO item)
+        {
+            Employee emp = await _updateService.UpdatPassportNo(item);
+            if (emp != null)
+            {
+                return Ok(emp);
+            }
+            return BadRequest("Unable to Update Passport Number ");
+        }
+
+
+        [HttpPut("Update DL Number")]
+        [ProducesResponseType(typeof(ActionResult<Employee>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Employee>> UpdateDLNumber(UpdateDTO item)
+        {
+            Employee emp = await _updateService.UpdateDLNumber(item);
+            if (emp != null)
+            {
+                return Ok(emp);
+            }
+            return BadRequest("Unable to Update Driving Licence Number ");
+        }
+
+
     }
 }
