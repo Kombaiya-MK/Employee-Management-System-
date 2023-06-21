@@ -6,9 +6,21 @@ namespace EmployeeManagementApp.Services
 {
     public class ManageEmployeeService : IManageEmployee<Employee, EmployeeDTO, String>
     {
-        public Task<Employee> AddEmployee(EmployeeDTO item)
+        private readonly IMapper<Employee, EmployeeDTO> _mapper;
+        private readonly IRepo<Employee, string> _repo;
+
+        public ManageEmployeeService(IRepo<Employee , string> repo , IMapper<Employee ,EmployeeDTO> mapper) 
+        { 
+            _mapper = mapper;
+            _repo = repo;
+        }
+
+        public async Task<Employee> AddEmployee(EmployeeDTO item)
         {
-            throw new NotImplementedException();
+            Employee employee =new Employee();
+            employee = await _mapper.MapEmployee(item);
+            //employee.EmpId = 
+            return employee;
         }
 
         public Task<ICollection<Employee>> GetEmployees(EmployeeDTO item)
@@ -24,6 +36,12 @@ namespace EmployeeManagementApp.Services
         public Task<Employee> UpdateEmployeeStatus(EmployeeDTO item)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<string> GetEmployeeCount()
+        {
+            var count =  _repo.GetAll().Result.Count.ToString();
+            return count;
         }
     }
 }

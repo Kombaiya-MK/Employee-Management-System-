@@ -22,5 +22,7 @@ namespace EmployeeManagementApp.Models.DTO
         public string? PassportNumber { get; set; }
         [Required(ErrorMessage = "Driving License Number Required")]
         public string? DLNumber { get; set; }
+        [Required(ErrorMessage = "Manager ID Required")]
+        public string? ManagerId { get; set; }
     }
 }

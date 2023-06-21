@@ -76,7 +76,7 @@ namespace EmployeeManagementApp.Services
         {
             try
             {
-                var employees = _context.Employee;
+                var employees = _context.Employee.ToListAsync();
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 ﻿namespace EmployeeManagementApp.Interfaces
 {
-    public interface IMapper<>
+    public interface IMapper<T,K>
     {
-
+        Task<T> MapEmployee(K item);
     }
 }
