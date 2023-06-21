@@ -19,7 +19,8 @@ namespace EmployeeManagementApp.Models
 
         [Required(ErrorMessage = "Employee Age Required")]
         public int Age { get; set; }
-        [Required(ErrorMessage = "Employee Gender Required")]
+        [Required(ErrorMessage = "Employee gender is required")]
+        [RegularExpression("^M(ale)?$|^F(emale)?$", ErrorMessage = "Invalid Entry for gender!!!")]
         public string? Gender { get; set; }
 
         [Required(ErrorMessage = "Employee Phone number Required")]
