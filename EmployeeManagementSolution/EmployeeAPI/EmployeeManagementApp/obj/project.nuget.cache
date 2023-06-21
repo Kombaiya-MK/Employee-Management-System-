@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2cWvrDnx6karOsSx/p7UM+fdKoo43fx8r1NKFSt0NK3pCB+KdZ0fXLqrJNuShFDgxr3Apjh1oyJOLSyUnXrfVQ==",
+  "dgSpecHash": "yoDC4pAW2BqrjOg6zqSigxUWNlfF/EjPfnKqqwoMVRckFfEEZA6BG40SYHEHRbW27I7EAcO2JQMuGpQbbJM1eA==",
   "success": true,
-  "projectFilePath": "D:\\Kanini_training\\2023June21\\Employee-Management\\EmployeeManagementSolution\\EmployeeManagementApp\\EmployeeManagementApp.csproj",
+  "projectFilePath": "D:\\Kanini_training\\2023June21\\Employee-Management\\EmployeeManagementSolution\\EmployeeAPI\\EmployeeManagementApp\\EmployeeManagementApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Acer\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
