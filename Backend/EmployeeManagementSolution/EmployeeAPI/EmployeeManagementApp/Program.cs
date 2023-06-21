@@ -22,6 +22,7 @@ builder.Services.AddDbContext<EmployeeContext>(opts =>
 builder.Services.AddScoped<IRepo<Employee,String> , EmployeeRepository>();
 builder.Services.AddScoped<IManageEmployee<Employee,EmployeeDTO>,ManageEmployeeService>();
 builder.Services.AddScoped<IMapper<Employee, EmployeeDTO>, Mapper>();
+builder.Services.AddScoped<IUpdateEmployee,UpdateEmployeeService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
