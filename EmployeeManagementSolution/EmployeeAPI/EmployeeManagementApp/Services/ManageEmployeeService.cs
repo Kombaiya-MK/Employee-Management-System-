@@ -4,7 +4,7 @@ using EmployeeManagementApp.Models.DTO;
 
 namespace EmployeeManagementApp.Services
 {
-    public class ManageEmployeeService : IManageEmployee<Employee, EmployeeDTO, String>
+    public class ManageEmployeeService : IManageEmployee<Employee, EmployeeDTO>
     {
         private readonly IMapper<Employee, EmployeeDTO> _mapper;
         private readonly IRepo<Employee, string> _repo;
@@ -19,8 +19,7 @@ namespace EmployeeManagementApp.Services
         {
             Employee employee =new Employee();
             employee = await _mapper.MapEmployee(item);
-            //employee.EmpId = 
-            return employee;
+            return await _repo.Add(employee);
         }
 
         public Task<ICollection<Employee>> GetEmployees(EmployeeDTO item)

@@ -1,6 +1,6 @@
 ﻿namespace EmployeeManagementApp.Interfaces
 {
-    public interface IManageEmployee<T,K,S>
+    public interface IManageEmployee<T,K>
     {
         Task<ICollection<T>> GetEmployees(K item);
         Task<T> UpdateEmployeeStatus(K item);

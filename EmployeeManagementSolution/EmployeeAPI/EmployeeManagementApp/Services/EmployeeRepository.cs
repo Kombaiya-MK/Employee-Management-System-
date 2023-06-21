@@ -27,7 +27,6 @@ namespace EmployeeManagementApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                ;
             }
             throw new Exception("unable to add");
         }
@@ -98,7 +97,7 @@ namespace EmployeeManagementApp.Services
                         employee.DLNumber = item.DLNumber;
                         employee.PassportNumber = item.PassportNumber;
                         employee.Address = item.Address;
-                        _context.Employee.Add(item);
+                        _context.SaveChanges();
                     }
                 }
 
