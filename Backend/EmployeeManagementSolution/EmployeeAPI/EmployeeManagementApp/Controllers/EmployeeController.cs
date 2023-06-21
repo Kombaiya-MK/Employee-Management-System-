@@ -32,6 +32,7 @@ namespace EmployeeManagementApp.Controllers
             return BadRequest("Operation failed");
         }
 
+<<<<<<< HEAD
         [HttpPut("Update Phone Number")]
         [ProducesResponseType(typeof(ActionResult<Employee>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -86,5 +87,27 @@ namespace EmployeeManagementApp.Controllers
         }
 
 
+=======
+        [HttpPut]
+        [ProducesResponseType(typeof(ActionResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<bool>> UpdateStatus(ChangeStatusDTO changeStatusDTO)
+        {
+            try
+            {
+                var result = await _service.ChangeStatus(changeStatusDTO);
+                if (result)
+                {
+                  return  Ok(result);
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                BadRequest(ex.Message);
+            }
+           return  BadRequest("unable to update");
+        }
+>>>>>>> 7f12845535c649a0302e4783a8a4d129be3c40d7
     }
 }
