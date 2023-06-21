@@ -19,21 +19,13 @@
 
 			EmpDOB => DateTime
 
-			
+	    Modules:
+			* Module 1 : Add Employee
+			* Module 2: Update Employee(Only Phone , Address , Passport Number , Driving License Number
+			* Module 3: List Employees Under Manager
+			* Module 4: Change Employee State(Active , Inactive , Quit)
 
-			
+3.Apply/Approve Leave Service:
 
-	Modules:
-
-
-
-* Module 1 : Add Employee
-* Module 2: Update Employee(Only Phone , Address , Passport Number , Driving License Number
-* Module 3: List Employees Under Manager
-* Module 4: Change Employee State(Active , Inactive , Quit)
-
-3.Apply/Approve Leave:
-
-	Module 5: Apply Leave(Employee)
-
-		     Approve Leave(Manager)
+			* Module 5: Apply Leave(Employee)
+						Approve Leave(Manager)
