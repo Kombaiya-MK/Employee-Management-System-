@@ -25,7 +25,10 @@ namespace LeaveAPI.Migrations
             modelBuilder.Entity("LeaveAPI.Models.Leave", b =>
                 {
                     b.Property<int>("LeaveId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LeaveId"), 1L, 1);
 
                     b.Property<string>("EmpId")
                         .IsRequired()

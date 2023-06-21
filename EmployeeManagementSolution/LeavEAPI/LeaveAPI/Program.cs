@@ -1,4 +1,6 @@
+using LeaveAPI.Interfaces;
 using LeaveAPI.Models;
+using LeaveAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,6 +19,8 @@ builder.Services.AddDbContext<Context>(opts =>
 {
     opts.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
 });
+builder.Services.AddScoped<IRepo<string, Leave>, LeaveRepo>();
+builder.Services.AddScoped<ILeaveManage, LeaveService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

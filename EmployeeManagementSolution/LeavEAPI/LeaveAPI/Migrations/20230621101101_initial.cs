@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LeaveAPI.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,8 @@ namespace LeaveAPI.Migrations
                 name: "Leaves",
                 columns: table => new
                 {
-                    LeaveId = table.Column<int>(type: "int", nullable: false),
+                    LeaveId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     LeaveType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmpId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ManagerId = table.Column<string>(type: "nvarchar(max)", nullable: true),

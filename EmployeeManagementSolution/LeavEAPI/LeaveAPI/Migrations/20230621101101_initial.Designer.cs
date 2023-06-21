@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveAPI.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230621054534_init")]
-    partial class init
+    [Migration("20230621101101_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,10 @@ namespace LeaveAPI.Migrations
             modelBuilder.Entity("LeaveAPI.Models.Leave", b =>
                 {
                     b.Property<int>("LeaveId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LeaveId"), 1L, 1);
 
                     b.Property<string>("EmpId")
                         .IsRequired()
