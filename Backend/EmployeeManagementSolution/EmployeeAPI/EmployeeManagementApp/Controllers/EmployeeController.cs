@@ -29,5 +29,26 @@ namespace EmployeeManagementApp.Controllers
             }
             return BadRequest("Operation failed");
         }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(ActionResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<bool>> UpdateStatus(ChangeStatusDTO changeStatusDTO)
+        {
+            try
+            {
+                var result = await _service.ChangeStatus(changeStatusDTO);
+                if (result)
+                {
+                  return  Ok(result);
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                BadRequest(ex.Message);
+            }
+           return  BadRequest("unable to update");
+        }
     }
 }
