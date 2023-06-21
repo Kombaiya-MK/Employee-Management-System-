@@ -71,11 +71,14 @@ namespace EmployeeManagementApp.Services
             throw new Exception("no employee found");
         }
 
-        public Task<ICollection<Employee?>> GetAll()
+        public async Task<ICollection<Employee?>> GetAll()
         {
             try
             {
-                var employees = _context.Employee.ToListAsync();
+                var employees =await _context.Employee.ToListAsync();
+                if (employees != null)
+                    return employees;
+                return null;
             }
             catch (Exception ex)
             {

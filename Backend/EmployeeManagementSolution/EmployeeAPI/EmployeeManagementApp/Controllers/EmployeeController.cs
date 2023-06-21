@@ -3,6 +3,7 @@ using EmployeeManagementApp.Models.DTO;
 using EmployeeManagementApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 
 namespace EmployeeManagementApp.Controllers
 {
@@ -10,9 +11,9 @@ namespace EmployeeManagementApp.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IManageEmployee<Employee, EmployeeDTO> _service;
+        private readonly IManageEmployee<Employee, EmployeeDTO,ManagerIdDTO> _service;
 
-        public EmployeeController(IManageEmployee<Employee, EmployeeDTO> service)
+        public EmployeeController(IManageEmployee<Employee, EmployeeDTO, ManagerIdDTO> service)
         {
             _service = service;
         }
@@ -28,6 +29,19 @@ namespace EmployeeManagementApp.Controllers
                 return Created("Employee Data Added Successfully!!!",emp);
             }
             return BadRequest("Operation failed");
+        }
+
+        [HttpGet("Get Employees by manager Id")]
+        [ProducesResponseType(typeof(ActionResult<ICollection<Employee>>),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ICollection<Employee>>> GetEmployees(ManagerIdDTO item)
+        {
+            var employees = await _service.GetAllEmployees(item);
+            if(employees != null)
+            {
+                return Ok(employees);
+            }
+            return BadRequest("Unable to get Employees details");
         }
     }
 }
