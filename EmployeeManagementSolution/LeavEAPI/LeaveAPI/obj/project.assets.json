@@ -2278,11 +2278,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Kanini\\DotNet\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
+      "projectUniqueName": "D:\\Kanini\\DotNet\\LeaveAPI\\EmployeeManagementSolution\\LeavEAPI\\LeaveAPI\\LeaveAPI.csproj",
       "projectName": "LeaveAPI",
-      "projectPath": "D:\\Kanini\\DotNet\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
+      "projectPath": "D:\\Kanini\\DotNet\\LeaveAPI\\EmployeeManagementSolution\\LeavEAPI\\LeaveAPI\\LeaveAPI.csproj",
       "packagesPath": "C:\\Users\\Praveena Murugan\\.nuget\\packages\\",
-      "outputPath": "D:\\Kanini\\DotNet\\LeaveAPI\\LeaveAPI\\obj\\",
+      "outputPath": "D:\\Kanini\\DotNet\\LeaveAPI\\EmployeeManagementSolution\\LeavEAPI\\LeaveAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
