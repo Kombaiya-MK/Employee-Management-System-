@@ -11,16 +11,16 @@ namespace EmployeeManagementApp.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-<<<<<<< HEAD
+
         private readonly IManageEmployee<Employee, EmployeeDTO,ManagerIdDTO> _service;
 
         public EmployeeController(IManageEmployee<Employee, EmployeeDTO, ManagerIdDTO> service)
-=======
+
         private readonly IManageEmployee<Employee, EmployeeDTO> _service;
         private readonly IUpdateEmployee _updateService;
 
         public EmployeeController(IManageEmployee<Employee, EmployeeDTO> service , IUpdateEmployee updateService)
->>>>>>> 2370cd7fd354a340397ff66160b8f2854b5b13cd
+
         {
             _service = service;
             _updateService= updateService;
@@ -39,7 +39,7 @@ namespace EmployeeManagementApp.Controllers
             return BadRequest("Operation failed");
         }
 
-<<<<<<< HEAD
+
         [HttpGet("Get Employees by manager Id")]
         [ProducesResponseType(typeof(ActionResult<ICollection<Employee>>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,8 +52,7 @@ namespace EmployeeManagementApp.Controllers
             }
             return BadRequest("Unable to get Employees details");
         }
-=======
-<<<<<<< HEAD
+
         [HttpPut("Update Phone Number")]
         [ProducesResponseType(typeof(ActionResult<Employee>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -108,7 +107,7 @@ namespace EmployeeManagementApp.Controllers
         }
 
 
-=======
+
         [HttpPut]
         [ProducesResponseType(typeof(ActionResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -129,7 +128,6 @@ namespace EmployeeManagementApp.Controllers
             }
            return  BadRequest("unable to update");
         }
->>>>>>> 7f12845535c649a0302e4783a8a4d129be3c40d7
->>>>>>> 2370cd7fd354a340397ff66160b8f2854b5b13cd
+
     }
 }
