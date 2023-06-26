@@ -53,15 +53,15 @@ namespace LeaveAPI.Controllers
 
 
         }
-        [HttpGet("GetAllLeaves")]
+        [HttpPost("GetAllLeaves")]
         [ProducesResponseType(typeof(ICollection<Leave>), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
 
-        public async Task<ActionResult<Leave>> GetAllUsers()
+        public async Task<ActionResult<Leave>> GetAllUsers(GetAllDTO getAllDTO)
         {
 
-            ICollection<Leave?> leaves = await _leaveManage.GetAllUsers();
+            ICollection<Leave> leaves = await _leaveManage.GetAllUsers(getAllDTO);
             if (leaves != null)
             {
                 return Ok(leaves);

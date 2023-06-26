@@ -31,10 +31,11 @@ namespace LeaveAPI.Services
             return null;
         }
 
-        public async Task<ICollection<Leave?>> GetAllUsers()
+        public async Task<ICollection<Leave?>> GetAllUsers(GetAllDTO getAllDTO)
         {
             ICollection<Leave> leaves= await _repo.GetAll();
-            if(leaves != null )
+            leaves=leaves.Where(u=>u.ManagerId== getAllDTO.ManagerId).ToList();
+            if (leaves != null )
             {
                 return leaves;
             }
