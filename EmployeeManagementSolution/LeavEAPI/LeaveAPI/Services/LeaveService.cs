@@ -30,5 +30,15 @@ namespace LeaveAPI.Services
             }
             return null;
         }
+
+        public async Task<ICollection<Leave?>> GetAllUsers()
+        {
+            ICollection<Leave> leaves= await _repo.GetAll();
+            if(leaves != null )
+            {
+                return leaves;
+            }
+            return null;
+        }
     }
 }

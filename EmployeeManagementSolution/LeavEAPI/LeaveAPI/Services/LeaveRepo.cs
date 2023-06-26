@@ -30,7 +30,7 @@ namespace LeaveAPI.Services
 
         }
 
-        public async Task<ICollection<Leave>?> GetAll()
+        public async Task<ICollection<Leave?>> GetAll()
         {
             try
             {
