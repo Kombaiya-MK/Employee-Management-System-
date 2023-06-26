@@ -1,85 +1,100 @@
 ﻿using EmployeeManagementApp.Interfaces;
 using EmployeeManagementApp.Models;
 using EmployeeManagementApp.Models.DTO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EmployeeManagementApp.Services
 {
-    public class ManageEmployeeService : IManageEmployee<Employee, EmployeeDTO,ManagerIdDTO>
+    public class ManageEmployeeService : IManageEmployee
     {
-        private readonly IMapper<Employee, EmployeeDTO> _mapper;
-        private readonly IRepo<Employee, string> _repo;
-        private readonly ILogger _logger;
+        private readonly IRepo<User, string> _userRepo;
+        private readonly IRepo<Employee, string> _empRepo;
+        private readonly IGenerateToken _tokenService;
+        private readonly IGenerateUserID _userIdService;
 
-        public ManageEmployeeService(IRepo<Employee , string> repo , IMapper<Employee ,EmployeeDTO> mapper,ILogger logger) 
+        public ManageEmployeeService(
+            IRepo<Employee,string> empRepo,
+            IRepo<User,string> userRepo,
+            IGenerateToken tokenService,
+            IGenerateUserID userIdService) 
         { 
-            _mapper = mapper;
-            _repo = repo;
-            _logger= logger;
+            _userRepo=userRepo;
+            _empRepo=empRepo;
+            _tokenService=tokenService;
+            _userIdService = userIdService;
+ 
         }
-
-        public async Task<Employee> AddEmployee(EmployeeDTO item)
+        public async Task<UserDTO> Login(UserDTO userDTO)
         {
-            Employee employee =new Employee();
-            employee = await _mapper.MapEmployee(item);
-            return await _repo.Add(employee);
-        }
-
-<<<<<<< HEAD
-        public async Task<ICollection<Employee>> GetAllEmployees(ManagerIdDTO item)
-=======
-        public async Task<bool> ChangeStatus(ChangeStatusDTO changeStatusDTO)
-        {
-            try
+            UserDTO user = null;
+            var userData = await _userRepo.Get(userDTO.EmpId);
+            if (userData != null)
             {
-                var employee = await _repo.Get(changeStatusDTO.EmpId);
-
-                if (employee != null)
+                var hmac = new HMACSHA512(userData.PasswordKey);
+                var userPass = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDTO.Password));
+                for (int i = 0; i < userPass.Length; i++)
                 {
-                    employee.Status = changeStatusDTO.Status;
-                    await _repo.Update(employee);
-                    return true;
+                    if (userPass[i] != userData.PasswordHash[i])
+                        return null;
                 }
-
-                return false;
+                user = new UserDTO();
+                user.EmpId = userData.EmpId;
+                user.Status = userData.Status;
+                user.Role = userData.Role;
+                user.Token = _tokenService.GenerateToken(user);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                throw new Exception("Unable to change status");
-            }
+            return user;
         }
 
-        public Task<ICollection<Employee>> GetEmployees(EmployeeDTO item)
->>>>>>> 2370cd7fd354a340397ff66160b8f2854b5b13cd
+        public async Task<UserDTO> Register(EmployeeDTO employee)
         {
-            var employees = await _repo.GetAll();
-            if(employees != null)
+            UserDTO user = null;
+            var hmac = new HMACSHA512();
+            var allEmployees = await _empRepo.GetAll();
+            employee.User.EmpId =await _userIdService.GenerateUserId(allEmployees.Count);
+            employee.User.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(employee.PasswordClear ?? "1234"));
+            employee.User.PasswordKey = hmac.Key;
+            employee.Age= DateTime.Today.Year - new DateTime(employee.DateOfBirth.Year, employee.DateOfBirth.Month, employee.DateOfBirth.Day).Year;
+            employee.User.Role = employee.User.Role ?? "Admin";
+            var userResult = await _userRepo.Add(employee.User);
+            var internResult = await _empRepo.Add(employee);
+            if (userResult != null && internResult != null)
             {
-                var selectedEmp= employees.Where(s=>s.ManagerId== item.ManagerId).ToList();
-                if(selectedEmp != null)
-                    return selectedEmp;
-                return null;
+                user = new UserDTO();
+                user.EmpId = userResult.EmpId;
+                user.Role = userResult.Role;
+                user.Status = userResult.Status;
+                user.Token = _tokenService.GenerateToken(user);
+            }
+            return user;
+        }
+        public async Task<ChangeStatusDTO> ChangeStatus(ChangeStatusDTO changeDTO)
+        {
+            var userData = await _userRepo.Get(changeDTO.EmpID);
+            if(userData != null)
+            {
+                userData.Status = changeDTO.Status;
+                var result = _userRepo.Update(userData);
+                if(result != null)
+                {
+                    return changeDTO;
+                }
             }
             return null;
         }
 
-        public Task<Employee> UpdateEmployeeDetails(EmployeeDTO item)
+        public async Task<List<Employee>> GetAllIntern(ManagerIdDTO item)
         {
-            throw new NotImplementedException();
+            var employees= await _empRepo.GetAll();
+            if(employees != null)
+            {
+                var employeesByManager = employees.Where(s=>s.User.ManagerId == item.ManagerId);
+                return employeesByManager.ToList();
+            }
+            return null;
         }
 
-<<<<<<< HEAD
-        public Task<Employee> UpdateEmployeeStatus(EmployeeDTO item)
-        {
-            throw new NotImplementedException();
-        }
-=======
-        public async Task<string> GetEmployeeCount()
-        {
-            var count = _repo.GetAll().Result.Count.ToString();
-            return count;
-        }
-
->>>>>>> 2370cd7fd354a340397ff66160b8f2854b5b13cd
+       
     }
 }

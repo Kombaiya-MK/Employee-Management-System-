@@ -12,45 +12,39 @@ namespace EmployeeManagementApp.Controllers
     public class EmployeeController : ControllerBase
     {
 
-        private readonly IManageEmployee<Employee, EmployeeDTO,ManagerIdDTO> _service;
-
-        public EmployeeController(IManageEmployee<Employee, EmployeeDTO, ManagerIdDTO> service)
-
-        private readonly IManageEmployee<Employee, EmployeeDTO> _service;
+        private readonly IManageEmployee _service;
         private readonly IUpdateEmployee _updateService;
 
-        public EmployeeController(IManageEmployee<Employee, EmployeeDTO> service , IUpdateEmployee updateService)
-
+        public EmployeeController(IManageEmployee  service , IUpdateEmployee updateService)
         {
             _service = service;
             _updateService= updateService;
         }
 
-        [HttpPost]
-        [ProducesResponseType(typeof(ActionResult<Employee>),StatusCodes.Status201Created)]
+        [HttpPost("Register")]
+        [ProducesResponseType(typeof(UserDTO), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Employee>> AddEmployee(EmployeeDTO employee)
+        public async Task<ActionResult<UserDTO>> Register(EmployeeDTO employee)
         {
-            Employee emp = await _service.AddEmployee(employee);
-            if(emp != null)
+            var result = await _service.Register(employee);
+            if (result != null)
             {
-                return Created("Employee Data Added Successfully!!!",emp);
+                return Ok(result);
             }
-            return BadRequest("Operation failed");
+            return BadRequest("Unable to register at this moment");
         }
 
-
-        [HttpGet("Get Employees by manager Id")]
-        [ProducesResponseType(typeof(ActionResult<ICollection<Employee>>),StatusCodes.Status200OK)]
+        [HttpPost("Login")]
+        [ProducesResponseType(typeof(UserDTO), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ICollection<Employee>>> GetEmployees(ManagerIdDTO item)
+        public async Task<ActionResult<UserDTO>> Login(UserDTO userDTO)
         {
-            var employees = await _service.GetAllEmployees(item);
-            if(employees != null)
+            var result = await _service.Login(userDTO);
+            if (result != null)
             {
-                return Ok(employees);
+                return Ok(result);
             }
-            return BadRequest("Unable to get Employees details");
+            return BadRequest("Unable to Login ... Please Check Login Credentials ..");
         }
 
         [HttpPut("Update Phone Number")]
@@ -106,17 +100,15 @@ namespace EmployeeManagementApp.Controllers
             return BadRequest("Unable to Update Driving Licence Number ");
         }
 
-
-
-        [HttpPut]
+        [HttpPut("Update Status")]
         [ProducesResponseType(typeof(ActionResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<bool>> UpdateStatus(ChangeStatusDTO changeStatusDTO)
+        public async Task<ActionResult<ChangeStatusDTO>> UpdateStatus(ChangeStatusDTO changeStatusDTO)
         {
             try
             {
                 var result = await _service.ChangeStatus(changeStatusDTO);
-                if (result)
+                if (result!= null)
                 {
                   return  Ok(result);
                 }
@@ -126,8 +118,27 @@ namespace EmployeeManagementApp.Controllers
             {
                 BadRequest(ex.Message);
             }
-           return  BadRequest("unable to update");
+            return  BadRequest("unable to update");
         }
+        [HttpPost("Get Employees By Manager ID")]
+        [ProducesResponseType(typeof(ActionResult<ICollection<Employee>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ICollection<Employee>>> GetEmployees(ManagerIdDTO item)
+        {
+            try
+            {
+                var result = await _service.GetAllIntern(item);
+                if(result != null)
+                {
+                    return Ok(result);
+                }
 
+            }
+            catch(Exception ex)
+            {
+                BadRequest(ex.Message);
+            }
+            return BadRequest("Unable to get Employees");
+        }
     }
 }

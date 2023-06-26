@@ -1,25 +1,25 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using EmployeeManagementApp.Interfaces;
+﻿using EmployeeManagementApp.Interfaces;
 using EmployeeManagementApp.Models;
 using EmployeeManagementApp.Models.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace EmployeeManagementApp.Services
 {
-    public class EmployeeRepository : IRepo<Employee, string>
+    public class UserRepository:IRepo<User,string>
     {
         private readonly EmployeeContext _context;
-   
-        public EmployeeRepository(EmployeeContext context)
+
+        public UserRepository(EmployeeContext context) 
         {
-            _context = context;
+            _context=context;
         }
-        public async Task<Employee?> Add(Employee item)
+
+        public async Task<User> Add(User item)
         {
             try
             {
-                _context.Employees.Add(item);
+                _context.Users.Add(item);
                 await _context.SaveChangesAsync();
                 return item;
             }
@@ -30,16 +30,16 @@ namespace EmployeeManagementApp.Services
             throw new Exception("unable to add");
         }
 
-        public async Task<Employee?> Delete(string key)
+        public async Task<User> Delete(string key)
         {
             try
             {
-                var employee = await Get(key);
-                if (employee != null)
+                var user = await Get(key);
+                if (user != null)
                 {
-                    _context.Employees.Remove(employee);
+                    _context.Users.Remove(user);
                     await _context.SaveChangesAsync();
-                    return employee;
+                    return user;
                 }
                 return null;
             }
@@ -50,14 +50,14 @@ namespace EmployeeManagementApp.Services
             throw new Exception("no employee found");
         }
 
-        public async Task<Employee?> Get(string key)
+        public async Task<User> Get(string key)
         {
             try
             {
-                var employee = await _context.Employees.FirstOrDefaultAsync(e => e.EmpId == key);
-                if (employee != null)
+                var user = await _context.Users.FirstOrDefaultAsync(e => e.EmpId == key);
+                if (user != null)
                 {
-                    return employee;
+                    return user;
                 }
 
             }
@@ -68,13 +68,13 @@ namespace EmployeeManagementApp.Services
             throw new Exception("no employee found");
         }
 
-        public async Task<ICollection<Employee?>> GetAll()
+        public async Task<ICollection<User>> GetAll()
         {
             try
             {
-                var employees =await _context.Employees.ToListAsync();
-                if (employees != null)
-                    return employees;
+                var users = await _context.Users.ToListAsync();
+                if (users != null)
+                    return users;
                 return null;
             }
             catch (Exception ex)
@@ -84,25 +84,21 @@ namespace EmployeeManagementApp.Services
             throw new Exception("no employees found");
         }
 
-        public async Task<Employee?> Update(Employee item)
+        public async Task<User> Update(User item)
         {
             try
             {
                 if (item.EmpId != null)
                 {
-                    var employee = await Get(item.EmpId);
-                    if (employee != null)
+                    var user =await Get(item.EmpId);
+                    if (user != null)
                     {
-                        employee.DLNumber = item.DLNumber;
-                        employee.PassportNumber = item.PassportNumber;
-                        employee.Address = item.Address;
+                        user.Status = item.Status;
                         await _context.SaveChangesAsync();
-                        return employee;
+                        return user;
                     }
                 }
-
                 return null;
-
             }
             catch (Exception ex)
             {

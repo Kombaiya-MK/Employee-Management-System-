@@ -2225,23 +2225,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Acer\\.nuget\\packages\\": {},
+    "C:\\Users\\santh\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Kanini_training\\2023June21\\Employee-Management\\EmployeeManagementSolution\\EmployeeAPI\\EmployeeManagementApp\\EmployeeManagementApp.csproj",
+      "projectUniqueName": "D:\\KANINI\\React\\Emp-Management\\EmployeeManagementSolution\\EmployeeAPI\\EmployeeManagementApp\\EmployeeManagementApp.csproj",
       "projectName": "EmployeeManagementApp",
-      "projectPath": "D:\\Kanini_training\\2023June21\\Employee-Management\\EmployeeManagementSolution\\EmployeeAPI\\EmployeeManagementApp\\EmployeeManagementApp.csproj",
-      "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-      "outputPath": "D:\\Kanini_training\\2023June21\\Employee-Management\\EmployeeManagementSolution\\EmployeeAPI\\EmployeeManagementApp\\obj\\",
+      "projectPath": "D:\\KANINI\\React\\Emp-Management\\EmployeeManagementSolution\\EmployeeAPI\\EmployeeManagementApp\\EmployeeManagementApp.csproj",
+      "packagesPath": "C:\\Users\\santh\\.nuget\\packages\\",
+      "outputPath": "D:\\KANINI\\React\\Emp-Management\\EmployeeManagementSolution\\EmployeeAPI\\EmployeeManagementApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\santh\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

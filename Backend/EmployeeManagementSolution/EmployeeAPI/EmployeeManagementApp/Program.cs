@@ -1,5 +1,4 @@
 using EmployeeManagementApp.Interfaces;
-using EmployeeManagementApp.Mapper;
 using EmployeeManagementApp.Models;
 using EmployeeManagementApp.Models.Context;
 using EmployeeManagementApp.Models.DTO;
@@ -19,9 +18,11 @@ builder.Services.AddDbContext<EmployeeContext>(opts =>
     opts.UseSqlServer(builder.Configuration.GetConnectionString("empConn"));
 }
     );
-builder.Services.AddScoped<IRepo<Employee,String> , EmployeeRepository>();
-builder.Services.AddScoped<IManageEmployee<Employee,EmployeeDTO>,ManageEmployeeService>();
-builder.Services.AddScoped<IMapper<Employee, EmployeeDTO>, Mapper>();
+builder.Services.AddScoped<IRepo<Employee,string> , EmployeeRepository>();
+builder.Services.AddScoped<IRepo<User, string>, UserRepository>();
+builder.Services.AddScoped<IManageEmployee,ManageEmployeeService>();
+builder.Services.AddScoped<IGenerateToken,GenerateTokenService>();
+builder.Services.AddScoped<IGenerateUserID,GenerateUserIDService>();
 builder.Services.AddScoped<IUpdateEmployee,UpdateEmployeeService>();
 var app = builder.Build();
 
