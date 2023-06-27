@@ -1,26 +1,46 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css"
+<<<<<<< HEAD
 import { Navigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import './Login.css'
+=======
+import './Login.css'
+import { Navigate } from "react-router-dom";
+>>>>>>> main
 
 
 function Login()
 {
     const [Employee , setEmployee] = useState(
         {
+<<<<<<< HEAD
             "empId": "",
             "password": "",
             "managerID": "",
             "status": "",
             "role": "",
             "token": ""
+=======
+            "empId": "string",
+            "password": "string",
+            "managerID": "string",
+            "status": "string",
+            "role": "string",
+            "token": "string"
+>>>>>>> main
         }
         
     );
 
     var Login = () => {
+<<<<<<< HEAD
         fetch("http://localhost:5166/api/Employee/Login/Login" ,{
+=======
+        console.log(Employee)
+        console.log("hello")
+        fetch("http://localhost:5199/api/User/Login" ,{
+>>>>>>> main
             "method":"POST",
             headers:{
                 "accept": "text/plain",
@@ -28,12 +48,18 @@ function Login()
             },
             "body":JSON.stringify({...Employee,"Employee":{} })})
             .then(async (data)=>{
+<<<<<<< HEAD
                     var myData = await data.json();
                     console.log(myData)
                     if(myData.status == 201)
                     {
                         Navigate("/Home");
                     }
+=======
+                     var myData = await data.json();
+                     console.log(myData);
+                     alert("Welcome " + myData.role);
+>>>>>>> main
                      setEmployee(myData);
 
                }).catch((err)=>{
@@ -42,13 +68,20 @@ function Login()
     }
     return (
         <div>
+<<<<<<< HEAD
             {/* <label className="form-control Login label">Employee ID</label>
             <input type="text" className="form-control Login " placeholder="Enter ID...." onChange={(event)=>{
                 setEmployee({...Employee,"empId":event.target.value})
+=======
+            <label className="form-control Login label">Employee ID</label>
+            <input type="number" className="form-control Login " placeholder="Enter ID...." onChange={(event)=>{
+                setEmployeetUser({...Employee,"empId":event.target.value})
+>>>>>>> main
             }} />
             <label  className="form-control Login label">Password</label>
             <input type="text" className="form-control Login" placeholder="Enter Password...." onChange={(event)=>{
                 setEmployee({...Employee,"password":event.target.value})
+<<<<<<< HEAD
             }} /> */}
             <section className="vh-100" style={{ backgroundColor: '#9A616D' }}>
       <div className="container py-5 h-100">
@@ -116,6 +149,10 @@ function Login()
         </div>
       </div>
     </section>
+=======
+            }} />
+            <button onClick={Login} className="btn btn-success">Login</button>
+>>>>>>> main
         </div>
     )
 }
