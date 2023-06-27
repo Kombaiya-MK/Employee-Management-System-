@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   return (
+    
     <BrowserRouter>
         <Navbar/>
         <Routes>
@@ -16,7 +17,6 @@ function App() {
         <Route path='create' element={<AddEmployees/>}/>
         <Route path='list' element={<UpdateEmployees/>}/>
         </Routes>
-   
       </BrowserRouter>
   );
 }

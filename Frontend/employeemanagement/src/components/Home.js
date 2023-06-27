@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 const Home = () => {
   const [employees, setEmployees] = useState([]);
   const [employeesFetched, setEmployeesFetched] = useState(false);
@@ -40,7 +41,13 @@ const Home = () => {
           </tbody>
         </table>
       ) : (
-        <button onClick={fetchEmployees}>Load Employees</button>
+        <button
+        onClick={fetchEmployees}
+        className="btn btn-primary d-block mx-auto"
+        style={{ backgroundColor: 'rgb(87, 239, 87)' }}
+      >
+        Get Employees
+      </button>
       )}
     </div>
   );
