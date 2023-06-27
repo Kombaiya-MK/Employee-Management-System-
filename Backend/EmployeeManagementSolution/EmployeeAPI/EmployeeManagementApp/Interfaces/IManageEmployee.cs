@@ -10,6 +10,7 @@ namespace EmployeeManagementApp.Interfaces
         public Task<UserDTO> Register(EmployeeDTO employee);
         public Task<ChangeStatusDTO> ChangeStatus(ChangeStatusDTO changeDTO);
         public Task<List<Employee>> GetAllIntern(ManagerIdDTO item);
+        public Task<Employee> GetProfile(GetEmployeeDTO item);
        
     }
 }

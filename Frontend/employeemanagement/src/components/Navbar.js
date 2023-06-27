@@ -40,8 +40,8 @@ const Navbar = () => {
             <li className={`nav-item ${activeLink === 'Add Employees' ? 'active' : ''}`}>
               <Link
                 className="nav-link"
-                to="/about"
-                onClick={() => handleLinkClick('About')}
+                to="/create"
+                onClick={() => handleLinkClick('Create')}
               >
                 About
               </Link>
@@ -53,6 +53,15 @@ const Navbar = () => {
                 onClick={() => handleLinkClick('Services')}
               >
                 Services
+              </Link>
+            </li>
+            <li className={`nav-item ${activeLink === 'Profile' ? 'active' : ''}`}>
+              <Link
+                className="nav-link"
+                to="/profile"
+                onClick={() => handleLinkClick('profile')}
+              >
+                Profile
               </Link>
             </li>
             <li className={`nav-item ${activeLink === 'Contact' ? 'active' : ''}`}>

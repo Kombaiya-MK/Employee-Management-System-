@@ -95,6 +95,27 @@ namespace EmployeeManagementApp.Services
             return null;
         }
 
-       
+        public async Task<Employee> GetProfile(GetEmployeeDTO item)
+        {
+            Employee emp = new Employee();
+            var getEmp= await _empRepo.Get(item.EmpID);
+            var getUser = await _userRepo.Get(item.EmpID);
+            if(getUser != null && getEmp != null)
+            {
+                emp.EmpId = getEmp.EmpId;
+                emp.Name=getEmp.Name;
+                emp.Email=getEmp.Email;
+                emp.DateOfBirth= getEmp.DateOfBirth;
+                emp.Age= getEmp.Age;
+                emp.Gender= getEmp.Gender;
+                emp.DLNumber= getEmp.DLNumber;
+                emp.PassportNumber= getEmp.PassportNumber;
+                emp.Address= getEmp.Address;
+                emp.PassportNumber=getEmp.PassportNumber;
+                emp.User = getUser;
+                return emp;
+            }
+            return null;
+        }
     }
 }

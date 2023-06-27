@@ -4,11 +4,13 @@ using EmployeeManagementApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Cors;
 
 namespace EmployeeManagementApp.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [EnableCors("AngularCORS")]
     public class EmployeeController : ControllerBase
     {
 
@@ -120,6 +122,7 @@ namespace EmployeeManagementApp.Controllers
             }
             return  BadRequest("unable to update");
         }
+
         [HttpPost("Get Employees By Manager ID")]
         [ProducesResponseType(typeof(ActionResult<ICollection<Employee>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -139,6 +142,28 @@ namespace EmployeeManagementApp.Controllers
                 BadRequest(ex.Message);
             }
             return BadRequest("Unable to get Employees");
+        }
+
+        
+        [HttpPost("Get Profile")]
+        [ProducesResponseType(typeof(ActionResult<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ChangeStatusDTO>> GetProfile(GetEmployeeDTO item)
+        {
+            try
+            {
+                var result = await _service.GetProfile(item);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                BadRequest(ex.Message);
+            }
+            return BadRequest("unable to update");
         }
     }
 }
