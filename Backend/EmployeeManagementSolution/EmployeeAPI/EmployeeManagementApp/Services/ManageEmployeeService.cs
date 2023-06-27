@@ -1,46 +1,101 @@
 ﻿using EmployeeManagementApp.Interfaces;
 using EmployeeManagementApp.Models;
 using EmployeeManagementApp.Models.DTO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EmployeeManagementApp.Services
 {
-    public class ManageEmployeeService : IManageEmployee<Employee, EmployeeDTO>
+    public class ManageEmployeeService : IManageEmployee
     {
-        private readonly IMapper<Employee, EmployeeDTO> _mapper;
-        private readonly IRepo<Employee, string> _repo;
+        private readonly IRepo<User, string> _userRepo;
+        private readonly IRepo<Employee, string> _empRepo;
+        private readonly IGenerateToken _tokenService;
+        private readonly IGenerateUserID _userIdService;
 
-        public ManageEmployeeService(IRepo<Employee , string> repo , IMapper<Employee ,EmployeeDTO> mapper) 
+        public ManageEmployeeService(
+            IRepo<Employee,string> empRepo,
+            IRepo<User,string> userRepo,
+            IGenerateToken tokenService,
+            IGenerateUserID userIdService) 
         { 
-            _mapper = mapper;
-            _repo = repo;
+            _userRepo=userRepo;
+            _empRepo=empRepo;
+            _tokenService=tokenService;
+            _userIdService = userIdService;
+ 
+        }
+        public async Task<UserDTO> Login(UserDTO userDTO)
+        {
+            UserDTO user = null;
+            var userData = await _userRepo.Get(userDTO.EmpId);
+            if (userData != null)
+            {
+                var hmac = new HMACSHA512(userData.PasswordKey);
+                var userPass = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDTO.Password));
+                for (int i = 0; i < userPass.Length; i++)
+                {
+                    if (userPass[i] != userData.PasswordHash[i])
+                        return null;
+                }
+                user = new UserDTO();
+                user.EmpId = userData.EmpId;
+                user.Status = userData.Status;
+                user.Role = userData.Role;
+                user.Token = _tokenService.GenerateToken(user);
+            }
+            return user;
         }
 
-        public async Task<Employee> AddEmployee(EmployeeDTO item)
+        public async Task<UserDTO> Register(EmployeeDTO employee)
         {
-            Employee employee =new Employee();
-            employee = await _mapper.MapEmployee(item);
-            return await _repo.Add(employee);
+            UserDTO user = null;
+            var hmac = new HMACSHA512();
+            var allEmployees = await _empRepo.GetAll();
+            employee.User.EmpId =await _userIdService.GenerateUserId(allEmployees.Count);
+            employee.User.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(employee.PasswordClear ?? "1234"));
+            employee.User.PasswordKey = hmac.Key;
+            employee.User.ManagerId = employee.User.ManagerId;
+            employee.Age= DateTime.Today.Year - new DateTime(employee.DateOfBirth.Year, employee.DateOfBirth.Month, employee.DateOfBirth.Day).Year;
+            employee.User.Role =  employee.User.Role ?? "Admin";
+            var userResult = await _userRepo.Add(employee.User);
+            var EmployeeResult = await _empRepo.Add(employee);
+            if (userResult != null && EmployeeResult != null)
+            {
+                user = new UserDTO();
+                user.EmpId = userResult.EmpId;
+                user.Role = userResult.Role;
+                user.Status = userResult.Status;
+                user.Token = _tokenService.GenerateToken(user);
+            }
+            return user;
+        }
+        public async Task<ChangeStatusDTO> ChangeStatus(ChangeStatusDTO changeDTO)
+        {
+            var userData = await _userRepo.Get(changeDTO.EmpID);
+            if (userData != null)
+            {
+                userData.Status = changeDTO.Status;
+                var result = await _userRepo.Update(userData);
+                if (result != null)
+                {
+                    return changeDTO;
+                }
+            }
+            return null;
         }
 
-        public Task<ICollection<Employee>> GetEmployees(EmployeeDTO item)
+        public async Task<List<Employee>> GetAllIntern(ManagerIdDTO item)
         {
-            throw new NotImplementedException();
+            var employees= await _empRepo.GetAll();
+            if(employees != null)
+            {
+                var employeesByManager = employees.Where(s=>s.User.ManagerId == item.ManagerId);
+                return employeesByManager.ToList();
+            }
+            return null;
         }
 
-        public Task<Employee> UpdateEmployeeDetails(EmployeeDTO item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> UpdateEmployeeStatus(EmployeeDTO item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<string> GetEmployeeCount()
-        {
-            var count =  _repo.GetAll().Result.Count.ToString();
-            return count;
-        }
+       
     }
 }

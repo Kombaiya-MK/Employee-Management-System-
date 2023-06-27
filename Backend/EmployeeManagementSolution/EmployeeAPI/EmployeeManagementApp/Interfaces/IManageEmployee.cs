@@ -1,10 +1,15 @@
-﻿namespace EmployeeManagementApp.Interfaces
+﻿using EmployeeManagementApp.Models;
+using EmployeeManagementApp.Models.DTO;
+
+namespace EmployeeManagementApp.Interfaces
 {
-    public interface IManageEmployee<T,K>
+
+    public interface IManageEmployee
     {
-        Task<ICollection<T>> GetEmployees(K item);
-        Task<T> UpdateEmployeeStatus(K item);
-        Task<T> UpdateEmployeeDetails(K item);
-        Task<T> AddEmployee(K item);
+        public Task<UserDTO> Login(UserDTO user);
+        public Task<UserDTO> Register(EmployeeDTO employee);
+        public Task<ChangeStatusDTO> ChangeStatus(ChangeStatusDTO changeDTO);
+        public Task<List<Employee>> GetAllIntern(ManagerIdDTO item);
+       
     }
 }

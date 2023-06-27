@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using EmployeeManagementApp.Interfaces;
 using EmployeeManagementApp.Models;
 using EmployeeManagementApp.Models.Context;
@@ -9,24 +10,22 @@ namespace EmployeeManagementApp.Services
     public class EmployeeRepository : IRepo<Employee, string>
     {
         private readonly EmployeeContext _context;
-        private readonly ILogger _logger;
-
-        public EmployeeRepository(EmployeeContext context, ILogger logger)
+   
+        public EmployeeRepository(EmployeeContext context)
         {
             _context = context;
-            _logger = logger;
         }
         public async Task<Employee?> Add(Employee item)
         {
             try
             {
-                _context.Employee.Add(item);
+                _context.Employees.Add(item);
                 await _context.SaveChangesAsync();
                 return item;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                Debug.WriteLine(ex);
             }
             throw new Exception("unable to add");
         }
@@ -38,7 +37,7 @@ namespace EmployeeManagementApp.Services
                 var employee = await Get(key);
                 if (employee != null)
                 {
-                    _context.Employee.Remove(employee);
+                    _context.Employees.Remove(employee);
                     await _context.SaveChangesAsync();
                     return employee;
                 }
@@ -46,18 +45,16 @@ namespace EmployeeManagementApp.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                Debug.WriteLine(ex);
             }
             throw new Exception("no employee found");
-
-
         }
 
         public async Task<Employee?> Get(string key)
         {
             try
             {
-                var employee = await _context.Employee.FirstOrDefaultAsync(e => e.EmpId == key);
+                var employee = await _context.Employees.FirstOrDefaultAsync(e => e.EmpId == key);
                 if (employee != null)
                 {
                     return employee;
@@ -66,20 +63,23 @@ namespace EmployeeManagementApp.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                Debug.WriteLine(ex);
             }
             throw new Exception("no employee found");
         }
 
-        public Task<ICollection<Employee?>> GetAll()
+        public async Task<ICollection<Employee?>> GetAll()
         {
             try
             {
-                var employees = _context.Employee.ToListAsync();
+                var employees =await _context.Employees.ToListAsync();
+                if (employees != null)
+                    return employees;
+                return null;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                Debug.WriteLine(ex);
             }
             throw new Exception("no employees found");
         }
@@ -93,11 +93,11 @@ namespace EmployeeManagementApp.Services
                     var employee = await Get(item.EmpId);
                     if (employee != null)
                     {
-                        employee.Status = item.Status;
                         employee.DLNumber = item.DLNumber;
                         employee.PassportNumber = item.PassportNumber;
                         employee.Address = item.Address;
-                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
+                        return employee;
                     }
                 }
 
@@ -106,7 +106,7 @@ namespace EmployeeManagementApp.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                Debug.WriteLine(ex);
             }
             throw new Exception("unable to update");
         }

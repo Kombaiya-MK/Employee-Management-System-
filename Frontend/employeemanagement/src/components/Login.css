@@ -1,0 +1,11 @@
+.Login{
+    max-width: 40%;
+    max-height: 40%;
+    align-items: center;
+    margin: 10px;
+}
+
+.label{
+    border: white;
+    font-weight:900;
+}

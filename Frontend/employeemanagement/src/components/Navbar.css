@@ -1,0 +1,29 @@
+/* Navbar.css */
+  
+.home:hover
+{
+  background-color: rgb(87, 239, 87);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+}
+
+.navbar-nav.ml-auto {
+  margin-left: auto;
+}
+
+.nav-link.home {
+  margin-right: 10px;
+}
+
+.navbar-logo{
+  height:50px ;
+  width:50px;
+}
+
+.container{
+  background-color: rgb(67, 178, 248);
+}
+
+.navbar {
+  background-color: rgb(87, 239, 87); 
+}

@@ -6,6 +6,6 @@
         public Task<T> Update(T item);
         public Task<T> Delete(k key);
         public Task<T> Get(k key);
-        public Task<ICollection<T>> GetAll();
+        Task<ICollection<T>> GetAll();
     }
 }
