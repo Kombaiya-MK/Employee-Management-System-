@@ -3,14 +3,14 @@ import './AddEmployee.css'
 
 function AddEmployees(){
 
-    const [gender, setGender] = useState("Male");
+    //const [gender, setGender] = useState("Male");
     const [Employee , setEmployee] = useState(
         {
             "empId": "",
             "user": {
               "empId": "",
               "managerId": "",
-              "role": "",
+              "role": "Admin",
               "status": "",
               "passwordHash": "",
               "passwordKey": ""
@@ -170,7 +170,7 @@ function AddEmployees(){
                         type="text"
                         value={Employee.user.managerId}
                         onChange={(event) => {
-                        setEmployee({ ...Employee.user, managerId: event.target.value });
+                        setEmployee({ ...Employee, managerId: event.target.value });
                         }}
                     />
                     <br/>

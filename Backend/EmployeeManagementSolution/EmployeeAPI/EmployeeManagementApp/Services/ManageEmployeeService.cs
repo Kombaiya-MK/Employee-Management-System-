@@ -55,8 +55,9 @@ namespace EmployeeManagementApp.Services
             employee.User.EmpId =await _userIdService.GenerateUserId(allEmployees.Count);
             employee.User.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(employee.PasswordClear ?? "1234"));
             employee.User.PasswordKey = hmac.Key;
+            employee.User.ManagerId = employee.User.ManagerId;
             employee.Age= DateTime.Today.Year - new DateTime(employee.DateOfBirth.Year, employee.DateOfBirth.Month, employee.DateOfBirth.Day).Year;
-            employee.User.Role = employee.User.Role ?? "Admin";
+            employee.User.Role =  employee.User.Role ?? "Admin";
             var userResult = await _userRepo.Add(employee.User);
             var EmployeeResult = await _empRepo.Add(employee);
             if (userResult != null && EmployeeResult != null)
@@ -72,11 +73,11 @@ namespace EmployeeManagementApp.Services
         public async Task<ChangeStatusDTO> ChangeStatus(ChangeStatusDTO changeDTO)
         {
             var userData = await _userRepo.Get(changeDTO.EmpID);
-            if(userData != null)
+            if (userData != null)
             {
                 userData.Status = changeDTO.Status;
-                var result = _userRepo.Update(userData);
-                if(result != null)
+                var result = await _userRepo.Update(userData);
+                if (result != null)
                 {
                     return changeDTO;
                 }
