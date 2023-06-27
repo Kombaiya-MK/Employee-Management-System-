@@ -12,8 +12,8 @@ function AddEmployees(){
               "managerId": "",
               "role": "",
               "status": "",
-              "passwordHash": any,
-              "passwordKey": any
+              "passwordHash": "",
+              "passwordKey": ""
             },
             "name": "",
             "dateOfBirth": "",
@@ -30,7 +30,7 @@ function AddEmployees(){
 
     var AddEmployee = () => {
         console.log(Employee)
-        fetch("http://localhost:5166/api/Employee/Login/Login" , {
+        fetch("http://localhost:5166/api/Employee/Register/Register" , {
             "method":"POST",
             headers:{
                 "accept": "text/plain",
