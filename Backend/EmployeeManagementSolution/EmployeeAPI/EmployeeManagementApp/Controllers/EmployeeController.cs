@@ -4,11 +4,13 @@ using EmployeeManagementApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Cors;
 
 namespace EmployeeManagementApp.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [EnableCors(PolicyName = "MyCors")]
     public class EmployeeController : ControllerBase
     {
 
