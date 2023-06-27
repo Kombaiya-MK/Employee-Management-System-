@@ -10,7 +10,7 @@ namespace EmployeeManagementApp.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [EnableCors("AngularCORS")]
+    [EnableCors(PolicyName = "MyCors")]
     public class EmployeeController : ControllerBase
     {
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // If using React Router
 import './Navbar.css'; // Custom CSS for additional styles
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
+import './Navbar.css';
+
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState('Home'); // State for active link
@@ -14,7 +16,8 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
-        <Link className="navbar-brand" to="/">Employee Management System</Link>
+      {/* <img src={logo} alt="Logo" className="navbar-logo" />Employee Management System */}
+      Employee Management System
         <button
           className="navbar-toggler"
           type="button"
@@ -28,7 +31,7 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li className={`nav-item ${activeLink === 'Home' ? 'active' : ''}`}>
+            <li className={`nav-item home ${activeLink === 'Home' ? 'active' : ''}`}>
               <Link
                 className="nav-link"
                 to="/"
@@ -37,40 +40,31 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            <li className={`nav-item ${activeLink === 'Add Employees' ? 'active' : ''}`}>
+            <li className={`nav-item home ${activeLink === 'Add Employees' ? 'active' : ''}`}>
               <Link
                 className="nav-link"
-                to="/create"
-                onClick={() => handleLinkClick('Create')}
+                to="/about"
+                onClick={() => handleLinkClick('Add Employees')}
               >
-                About
+               Add Employees 
               </Link>
             </li>
-            <li className={`nav-item ${activeLink === 'Services' ? 'active' : ''}`}>
-              <Link
-                className="nav-link"
-                to="/services"
-                onClick={() => handleLinkClick('Services')}
-              >
-                Services
-              </Link>
-            </li>
-            <li className={`nav-item ${activeLink === 'Profile' ? 'active' : ''}`}>
+            <li className={`nav-item home ${activeLink === 'profile' ? 'active' : ''}`}>
               <Link
                 className="nav-link"
                 to="/profile"
                 onClick={() => handleLinkClick('profile')}
               >
-                Profile
+               Profile 
               </Link>
             </li>
-            <li className={`nav-item ${activeLink === 'Contact' ? 'active' : ''}`}>
+            <li className={`nav-item home ${activeLink === 'Update Employees' ? 'active' : ''}`}>
               <Link
                 className="nav-link"
-                to="/contact"
-                onClick={() => handleLinkClick('Contact')}
+                to="/Update Employees"
+                onClick={() => handleLinkClick('Update Employees')}
               >
-                Contact
+              Update Employees
               </Link>
             </li>
           </ul>

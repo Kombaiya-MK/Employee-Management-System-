@@ -3,7 +3,10 @@ using EmployeeManagementApp.Models;
 using EmployeeManagementApp.Models.Context;
 using EmployeeManagementApp.Models.DTO;
 using EmployeeManagementApp.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +17,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(opts =>
-{
-    opts.AddPolicy("AngularCORS", options =>
-    {
-        options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-    });
-});
 
 builder.Services.AddDbContext<EmployeeContext>(opts =>
 {
@@ -33,15 +29,37 @@ builder.Services.AddScoped<IManageEmployee,ManageEmployeeService>();
 builder.Services.AddScoped<IGenerateToken,GenerateTokenService>();
 builder.Services.AddScoped<IGenerateUserID,GenerateUserIDService>();
 builder.Services.AddScoped<IUpdateEmployee,UpdateEmployeeService>();
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
+                       ValidateIssuer = false,
+                       ValidateAudience = false
+                   };
+               });
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy("MyCors", policy =>
+    {
+        policy.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AngularCORS");
+
+app.UseCors("MyCors");
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

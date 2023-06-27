@@ -58,8 +58,8 @@ namespace EmployeeManagementApp.Services
             employee.Age= DateTime.Today.Year - new DateTime(employee.DateOfBirth.Year, employee.DateOfBirth.Month, employee.DateOfBirth.Day).Year;
             employee.User.Role = employee.User.Role ?? "Admin";
             var userResult = await _userRepo.Add(employee.User);
-            var internResult = await _empRepo.Add(employee);
-            if (userResult != null && internResult != null)
+            var EmployeeResult = await _empRepo.Add(employee);
+            if (userResult != null && EmployeeResult != null)
             {
                 user = new UserDTO();
                 user.EmpId = userResult.EmpId;
@@ -111,7 +111,7 @@ namespace EmployeeManagementApp.Services
                 emp.DLNumber= getEmp.DLNumber;
                 emp.PassportNumber= getEmp.PassportNumber;
                 emp.Address= getEmp.Address;
-                emp.PassportNumber=getEmp.PassportNumber;
+                emp.PhoneNumber=getEmp.PhoneNumber;
                 emp.User = getUser;
                 return emp;
             }
